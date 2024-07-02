@@ -33,7 +33,7 @@ const validateForm = () => {
   return true;
 };
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   //validate our form
@@ -41,5 +41,14 @@ form.addEventListener("submit", (e) => {
 
   if (valid) {
     //submit form
+    const formData = new FormData(form);
+    await postData(formData);
   }
 });
+
+const postData = async (data) => {
+  await fetch("http://localhost:7000/api/create", {
+    method: "POST",
+    body: data,
+  });
+};
