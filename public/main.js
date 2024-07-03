@@ -18,7 +18,7 @@ const validateForm = () => {
   const thumbnail = select("#title").value;
   const category = select("#category").value;
 
-  const expectedImageFiles = ["jpg", "jpeg", "png"];
+  const exceptedtedImageFiles = ["jpg", "jpeg", "png"];
 
   if (!title || !content || !thumbnail || category == "0") {
     // show some error
@@ -26,7 +26,7 @@ const validateForm = () => {
   }
 
   const extension = thumbnail.split(".").pop();
-  if (!expectedImageFiles.includes(extension)) {
+  if (!exceptedtedImageFiles.includes(extension)) {
     return displayMessage("Image file is not supported", "red");
   }
 
@@ -46,9 +46,28 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
+const resetForm = () => {
+  select("#title").value = "";
+  select("#content").value = "";
+  select("#thumbnail").value = null;
+  select("#category").value = "0";
+  select("#featured-content").checked = false;
+};
+
 const postData = async (data) => {
-  await fetch("http://localhost:7000/api/create", {
+  const result = await fetch("/api/create", {
     method: "POST",
     body: data,
   });
+
+  if (result.ok) {
+    const response = await result.json();
+    if (response.success) {
+      displayMessage(response.message, "green");
+      resetForm();
+    }
+    if (!response.success) {
+      displayMessage(response.message, "red");
+    }
+  }
 };

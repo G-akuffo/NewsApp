@@ -4,6 +4,7 @@ const newsRouter = require("./routers/news");
 // const News = require("./news/news");
 
 app.use(express.static("public"));
+app.use(express.static("data/uploads"));
 app.use("/api", newsRouter); // => localhost:7000/api/create
 
 /*const news = new News();
