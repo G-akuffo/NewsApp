@@ -13,7 +13,9 @@ const test = async () => {
   const data = news.getAll();
 };
 
+
 test();*/
+const PORT = process.env.PORT || 7000;
 
 app.listen(7000, () => {
   console.log("Port is listening");

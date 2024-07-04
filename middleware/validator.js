@@ -1,6 +1,11 @@
 const { check, validationResult } = require("express-validator");
 
-const exceptedCategory = ["entertainment", "political", "tech"];
+const exceptedCategory = [
+  "entertainment",
+  "political",
+  "tech",
+  "breaking-news",
+];
 
 const validator = [
   check("title").trim().not().isEmpty().withMessage("Title is required"),

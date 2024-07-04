@@ -22,7 +22,7 @@ const createNews = async (req, res) => {
 
 const getAllNews = async (req, res) => {
   try {
-    const getAllNews = await news.getAll();
+    const data = await news.getAll();
     res.json({ success: true, news: data });
   } catch (error) {
     res.json({
