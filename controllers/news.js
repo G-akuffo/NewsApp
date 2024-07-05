@@ -37,9 +37,16 @@ const getSingleNews = async (req, res) => {
   try {
     const data = await news.getSingle(req.params.id);
     if (!data) {
-      return res.json({ success: false, message: "Post not found!" });
+      return res.json({
+        success: false,
+        message: "Post not found!",
+      });
     }
-    res.json({ success: true, news: data });
+
+    res.json({
+      success: true,
+      news: data,
+    });
   } catch (error) {
     res.json({
       success: false,
@@ -51,17 +58,43 @@ const getSingleNews = async (req, res) => {
 
 const getNewsByCategory = async (req, res) => {
   try {
-    const data = await news.getByCategory(req.params.category);
+    const { category, qty } = req.params;
+    const data = await news.getByCategory(category);
     if (!data) {
-      return res.json({ success: false, message: "Post not found!" });
+      return res.json({ success: false, message: "Posts not found!" });
     }
+
+    if (qty) {
+      return res.json({ success: true, news: [...data].splice(0, qty) });
+    }
+
     res.json({ success: true, news: data });
   } catch (error) {
     res.json({
       success: false,
       message: "Something went wrong, server error!",
     });
-    console.log("Error while getting news by category", error.message);
+    console.log("Error while getting news by category!", error.message);
+  }
+};
+
+const searchPosts = async (req, res) => {
+  try {
+    const { query } = req.params;
+    if (query.trim()) {
+      const response = await news.searchPosts(req.params.query);
+      if (response.length === 0)
+        return res.json({ success: false, message: "No match found.." });
+      res.json({ success: true, news: response });
+    }
+
+    res.json({ success: false, message: "No match found.." });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: "Something went wrong, server error!",
+    });
+    console.log(error);
   }
 };
 
@@ -70,4 +103,5 @@ module.exports = {
   getAllNews,
   getSingleNews,
   getNewsByCategory,
+  searchPosts,
 };

@@ -30,7 +30,7 @@ class News {
       ...data,
       id,
       desc,
-      thumbnail: `http://localhost:7000/${imageName}`,
+      thumbnail: `http://localhost:3000/${imageName}`,
     });
 
     await fs.promises.writeFile(this.path, JSON.stringify(totalData, null, 2));
